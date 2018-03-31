@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1 import host_subplot
-import mpl_toolkits.axisartist as AA
+# from mpl_toolkits.axes_grid1 import host_subplot
+# import mpl_toolkits.axisartist as AA
 import numpy as np
 
 hp = dict()
@@ -12,27 +12,33 @@ hp = {
     "h": 0.1,
     "t": 0.0,
     "tf": 0.7,
-    "plotH":[],
-    "plotP":[]
+    "plotH": [],
+    "plotP": []
 }
 
 
+# função para desenhar os gráficos dos hospedeiros e parasitas em função do tempo
 def draw_graph(x, ylabel):
-    ax = host_subplot(111, axes_class=AA.Axes)
+    # ax = host_subplot(111, axes_class=AA.Axes)
     t = np.arange(hp["t"], hp["tf"] + hp["h"], hp["h"])
-    ax.plot(t, x)
-
-    ax2 = ax.twin()  # ax2 is responsible for "top" axis and "right" axis
-    ax2.set_xticks([0., .5 * np.pi, np.pi, 1.5 * np.pi, 2 * np.pi])
-    ax2.set_xticklabels(["$0$", r"$\frac{1}{2}\pi$",
-                         r"$\pi$", r"$\frac{3}{2}\pi$", r"$2\pi$"])
-
-    ax2.axis["right"].major_ticklabels.set_visible(False)
-    ax2.axis["top"].major_ticklabels.set_visible(False)
-
-    plt.xlabel("Time(s)")
+    # ax.plot(t, x)
+    #
+    # ax2 = ax.twin()  # ax2 is responsible for "top" axis and "right" axis
+    # ax2.set_xticks([0., .5 * np.pi, np.pi, 1.5 * np.pi, 2 * np.pi])
+    # ax2.set_xticklabels(["$0$", r"$\frac{1}{2}\pi$",
+    #                      r"$\pi$", r"$\frac{3}{2}\pi$", r"$2\pi$"])
+    #
+    # ax2.axis["right"].major_ticklabels.set_visible(False)
+    # ax2.axis["top"].major_ticklabels.set_visible(False)
+    #
+    # plt.xlabel("Time(s)")
+    # plt.ylabel(ylabel)
+    # plt.draw()
+    # plt.show()
+    plt.title("Time(s) x " + ylabel)
+    plt.plot(t, x, c='#FFCC00', lw=1, marker='o', ms=2, mec='b', mew=1)
     plt.ylabel(ylabel)
-    plt.draw()
+    plt.xlabel("Time(s)")
     plt.show()
 
 
@@ -46,7 +52,7 @@ def rk4_host_paras(hp):
     k = [0, 0, 0, 0]
     l = [0, 0, 0, 0]
     print(" \t\t HOST's \t\t PARASIT's")
-    for i in np.arange(hp["t"], hp["tf"]+hp["h"], hp["h"]):
+    for i in np.arange(hp["t"], hp["tf"] + hp["h"], hp["h"]):
         print("t= %.1f \t %.5f \t\t %.5f" % (i, hp["ht"], hp["p"]))
         k[0] = hp["h"] * lv_eqt(hp["ht"], hp["p"], hp["g"][0], hp["d"][0])
         l[0] = hp["h"] * lv_eqt(hp["ht"], hp["p"], hp["d"][1], hp["g"][1])
@@ -68,7 +74,5 @@ def rk4_host_paras(hp):
 
 
 rk4_host_paras(hp)
-print(hp["plotH"])
-print(hp["plotP"])
 draw_graph(hp["plotH"], "Host's")
 draw_graph(hp["plotP"], "Parasit's")
